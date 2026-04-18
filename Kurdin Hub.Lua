@@ -1,14 +1,13 @@
--- [[ KURDIN HUB | FULL ELITE SCRIPT - UPDATED TARGET ]]
+-- [[ KURDIN HUB | V8 FINAL ELITE - ALL IN ONE ]]
 local p = game.Players.LocalPlayer
 local sg = Instance.new("ScreenGui", game:GetService("CoreGui"))
 sg.ResetOnSpawn = false
 
--- [ ١. مێنۆی سەرەکی - Neon UI ]
+-- [ ١. مێنۆی سەرەکی ]
 local Main = Instance.new("Frame", sg)
-Main.Size = UDim2.new(0, 560, 0, 460); Main.Position = UDim2.new(0.5, -280, 0.5, -230)
+Main.Size = UDim2.new(0, 560, 0, 480); Main.Position = UDim2.new(0.5, -280, 0.5, -240)
 Main.BackgroundColor3 = Color3.fromRGB(10, 10, 10); Main.Active = true; Main.Draggable = true
 Instance.new("UICorner", Main).CornerRadius = UDim.new(0, 15)
-
 local Stroke = Instance.new("UIStroke", Main)
 Stroke.Thickness = 3.5; task.spawn(function() while task.wait() do Stroke.Color = Color3.fromHSV(tick()%5/5, 1, 1) end end)
 
@@ -21,7 +20,7 @@ end
 cF(Color3.fromRGB(255,0,0), 0); cF(Color3.fromRGB(255,255,255), 0.33); cF(Color3.fromRGB(0,150,0), 0.66)
 local Sun = Instance.new("TextLabel", Flag); Sun.Size = UDim2.new(1,0,1,0); Sun.Text = "☀️"; Sun.TextColor3 = Color3.fromRGB(255,255,0); Sun.BackgroundTransparency = 1; Sun.TextSize = 25
 
--- [ ٢. بەشەکان (Sidebar & Container) ]
+-- [ ٢. بەشەکان ]
 local Sidebar = Instance.new("Frame", Main); Sidebar.Size = UDim2.new(0, 130, 1, -70); Sidebar.Position = UDim2.new(0, 10, 0, 60); Sidebar.BackgroundTransparency = 1
 local Container = Instance.new("Frame", Main); Container.Size = UDim2.new(1, -160, 1, -70); Container.Position = UDim2.new(0, 150, 0, 60); Container.BackgroundTransparency = 1
 
@@ -32,139 +31,189 @@ local function CreatePage(name, visible)
     return f
 end
 
-local HomeP = CreatePage("Home", true)
-local TargetP = CreatePage("Target", false)
-local GamesP = CreatePage("Games", false)
-local SpamP = CreatePage("Spam", false)
+local HomeP = CreatePage("Home", true); local TargetP = CreatePage("Target", false)
+local GamesP = CreatePage("Games", false); local AntiP = CreatePage("Anti", false); local UpdateP = CreatePage("Update", false)
 
 local function makeTab(name, y, page)
-    local b = Instance.new("TextButton", Sidebar); b.Size = UDim2.new(1, 0, 0, 38); b.Position = UDim2.new(0, 0, 0, y)
+    local b = Instance.new("TextButton", Sidebar); b.Size = UDim2.new(1, 0, 0, 35); b.Position = UDim2.new(0, 0, 0, y)
     b.Text = name; b.BackgroundColor3 = Color3.fromRGB(25, 25, 25); b.TextColor3 = Color3.new(1,1,1); b.Font = Enum.Font.GothamBold; Instance.new("UICorner", b)
     b.MouseButton1Click:Connect(function() for _,v in pairs(Pages) do v.Visible = false end page.Visible = true end)
 end
+makeTab("🏠 Home", 0, HomeP); makeTab("🎯 Target", 40, TargetP); makeTab("🎮 Games", 80, GamesP); makeTab("🛡️ Anti", 120, AntiP); makeTab("🔄 Update", 160, UpdateP)
 
-makeTab("🏠 Home", 0, HomeP); makeTab("🎯 Target", 45, TargetP); makeTab("🎮 Games", 90, GamesP); makeTab("💬 Spam", 135, SpamP)
+-- [[ ٣. بەشی HOME (Updated) ]]
+local MyImg = Instance.new("ImageLabel", HomeP); MyImg.Size = UDim2.new(0, 90, 0, 90); MyImg.Position = UDim2.new(0.5, -45, 0, 0); MyImg.Image = game.Players:GetUserThumbnailAsync(p.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420); Instance.new("UICorner", MyImg).CornerRadius = UDim.new(1,0)
+local Online = Instance.new("TextLabel", HomeP); Online.Size = UDim2.new(1,0,0,30); Online.Position = UDim2.new(0,0,0,110); Online.BackgroundTransparency = 1; Online.Font = Enum.Font.GothamBold; Online.TextSize = 16
+task.spawn(function() while task.wait(1) do Online.Text = "Players Online: "..#game.Players:GetPlayers(); Online.TextColor3 = Color3.fromHSV(tick()%5/5, 1, 1) end end)
+local DiscBtn = Instance.new("TextButton", HomeP); DiscBtn.Size = UDim2.new(0, 180, 0, 40); DiscBtn.Position = UDim2.new(0.5, -90, 0, 160); DiscBtn.Text = "Join Discord"; DiscBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242); DiscBtn.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", DiscBtn)
+DiscBtn.MouseButton1Click:Connect(function() setclipboard("https://discord.gg/VmW9t84T") DiscBtn.Text = "Copied!" task.wait(2) DiscBtn.Text = "Join Discord" end)
 
--- [[ ٣. بەشی HOME ]]
-local MyImg = Instance.new("ImageLabel", HomeP)
-MyImg.Size = UDim2.new(0, 90, 0, 90); MyImg.Position = UDim2.new(0.5, -45, 0, 0)
-MyImg.Image = game.Players:GetUserThumbnailAsync(p.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size420x420); Instance.new("UICorner", MyImg).CornerRadius = UDim.new(1,0)
-
-local Welcome = Instance.new("TextLabel", HomeP)
-Welcome.Size = UDim2.new(1,0,0,30); Welcome.Position = UDim2.new(0,0,0,100); Welcome.Text = "Welcome to Kurdin Hub: "..p.Name; Welcome.TextColor3 = Color3.new(1,1,1); Welcome.BackgroundTransparency = 1; Welcome.Font = Enum.Font.GothamBold
-
-local Online = Instance.new("TextLabel", HomeP)
-Online.Size = UDim2.new(1,0,0,30); Online.Position = UDim2.new(0,0,0,130); Online.BackgroundTransparency = 1; Online.Font = Enum.Font.GothamBold
-task.spawn(function() while task.wait(1) do Online.Text = "Users Online: "..#game.Players:GetPlayers(); Online.TextColor3 = Color3.fromHSV(tick()%5/5, 1, 1) end end)
-
-local JoinText = Instance.new("TextLabel", HomeP)
-JoinText.Size = UDim2.new(1,0,0,20); JoinText.Position = UDim2.new(0,0,0,170); JoinText.Text = "Join Discord | جۆینی دیسکۆردەکەمان بکە"; JoinText.TextColor3 = Color3.new(1,1,1); JoinText.BackgroundTransparency = 1; JoinText.Font = Enum.Font.Gotham
-
-local DiscBtn = Instance.new("TextButton", HomeP)
-DiscBtn.Size = UDim2.new(0, 140, 0, 40); DiscBtn.Position = UDim2.new(0.5, -70, 0, 200); DiscBtn.Text = "Join Discord [ _ ]"; DiscBtn.BackgroundColor3 = Color3.fromRGB(88, 101, 242); DiscBtn.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", DiscBtn)
-DiscBtn.MouseButton1Click:Connect(function() setclipboard("https://discord.gg/RqNuZhtB") DiscBtn.Text = "Copied!" task.wait(2) DiscBtn.Text = "Join Discord [ _ ]" end)
-
--- [[ ٤. بەشی TARGET (NEW DESIGN) ]]
-local TargetInfoFrame = Instance.new("Frame", TargetP)
-TargetInfoFrame.Size = UDim2.new(1, -20, 0, 100); TargetInfoFrame.Position = UDim2.new(0, 10, 0, 0)
-TargetInfoFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20); TargetInfoFrame.BorderSizePixel = 0
-Instance.new("UICorner", TargetInfoFrame).CornerRadius = UDim.new(0, 10)
-
-local TImg = Instance.new("ImageLabel", TargetInfoFrame)
-TImg.Size = UDim2.new(0, 80, 0, 80); TImg.Position = UDim2.new(0, 10, 0.5, -40)
-TImg.BackgroundColor3 = Color3.fromRGB(15,15,15); TImg.Image = "rbxassetid://6031075931"
-Instance.new("UICorner", TImg).CornerRadius = UDim.new(1,0)
-local TIS = Instance.new("UIStroke", TImg); TIS.Thickness = 2; TIS.Color = Color3.fromRGB(100,100,100)
-
-local InfoLabel = Instance.new("TextLabel", TargetInfoFrame)
-InfoLabel.Size = UDim2.new(1, -110, 1, -10); InfoLabel.Position = UDim2.new(0, 100, 0, 5)
-InfoLabel.BackgroundTransparency = 1; InfoLabel.Text = "UserID:\nDisplay:\nJoined:"; InfoLabel.TextColor3 = Color3.new(1,1,1)
-InfoLabel.Font = Enum.Font.Gotham; InfoLabel.TextSize = 13; InfoLabel.TextXAlignment = Enum.TextXAlignment.Left; InfoLabel.RichText = true
-
-local TBox = Instance.new("TextBox", TargetP)
-TBox.Size = UDim2.new(0.9,0,0,35); TBox.Position = UDim2.new(0.05,0,0,110)
-TBox.PlaceholderText = "@target...."; TBox.Text = ""; TBox.BackgroundColor3 = Color3.fromRGB(30,30,30); TBox.TextColor3 = Color3.new(1,1,1); TBox.Font = Enum.Font.Gotham
-local TBS = Instance.new("UIStroke", TBox); TBS.Thickness = 1.5; TBS.Color = Color3.fromRGB(100,100,100)
-Instance.new("UICorner", TBox)
-
+-- [[ ٤. بەشی TARGET (Bang & Suck & View & Bring) ]]
+local TBox = Instance.new("TextBox", TargetP); TBox.Size = UDim2.new(0.9,0,0,35); TBox.Position = UDim2.new(0.05,0,0,10); TBox.PlaceholderText = "@target...."; TBox.BackgroundColor3 = Color3.fromRGB(30,30,30); TBox.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", TBox)
 local TargetPlayer = nil
-TBox:GetPropertyChangedSignal("Text"):Connect(function()
-    if TBox.Text == "" then
-        TargetPlayer = nil
-        TImg.Image = "rbxassetid://6031075931"
-        TIS.Color = Color3.fromRGB(100,100,100); TBS.Color = Color3.fromRGB(100,100,100)
-        InfoLabel.Text = "UserID:\nDisplay:\nJoined:"
-        return
-    end
-    for _,v in pairs(game.Players:GetPlayers()) do
-        if v.Name:lower():sub(1,#TBox.Text) == TBox.Text:lower() or v.DisplayName:lower():sub(1,#TBox.Text) == TBox.Text:lower() then
-            TargetPlayer = v
-            TImg.Image = game.Players:GetUserThumbnailAsync(v.UserId, Enum.ThumbnailType.HeadShot, Enum.ThumbnailSize.Size150x150)
-            TIS.Color = Color3.fromRGB(0, 255, 150); TBS.Color = Color3.fromRGB(0, 255, 150)
-            local joinYear = os.date("%Y", os.time() - (v.AccountAge * 86400))
-            InfoLabel.Text = "<b>UserID:</b> <font color='#AAAAAA'>"..v.UserId.."</font>\n<b>Display:</b> <font color='#AAAAAA'>"..v.DisplayName.."</font>\n<b>Joined:</b> <font color='#AAAAAA'>"..joinYear.."</font>"
-        end
-    end
-end)
+TBox:GetPropertyChangedSignal("Text"):Connect(function() for _,v in pairs(game.Players:GetPlayers()) do if v.Name:lower():sub(1,#TBox.Text) == TBox.Text:lower() then TargetPlayer = v end end end)
 
 local function addTog(name, y, parent, func)
-    local btn = Instance.new("TextButton", parent); btn.Size = UDim2.new(0.47, 0, 0, 32); btn.Position = UDim2.new((y%2==0 and 0.02 or 0.52), 0, 0, 160 + math.floor(y/2)*38)
+    local btn = Instance.new("TextButton", parent); btn.Size = UDim2.new(0.47, 0, 0, 32); btn.Position = UDim2.new((y%2==0 and 0.02 or 0.52), 0, 0, 60 + math.floor(y/2)*38)
     btn.Text = name; btn.BackgroundColor3 = Color3.fromRGB(25,25,25); btn.TextColor3 = Color3.new(1,1,1); btn.Font = Enum.Font.Gotham; Instance.new("UICorner", btn)
     local s = Instance.new("UIStroke", btn); s.Thickness = 1.5; s.Color = Color3.fromRGB(60,60,60)
     local on = false
     btn.MouseButton1Click:Connect(function() on = not on; s.Color = on and Color3.fromRGB(0,255,150) or Color3.fromRGB(60,60,60); task.spawn(function() while on do if TargetPlayer then func(TargetPlayer) end task.wait() end end) end)
 end
+addTog("📍 یمص (Suck)", 0, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame * CFrame.new(0,-0.8,-1.2) * CFrame.Angles(math.rad(40), 0, 0) task.wait(0.1) p.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,0.2) end)
+addTog("🔥 بانق (Bang)", 1, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,1.1) task.wait(0.1) p.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-0.5) end)
+addTog("👁️ مشاهدە (View)", 2, TargetP, function(t) workspace.CurrentCamera.CameraSubject = t.Character.Humanoid end)
+addTog("🤝 ڕاکێشان (Bring)", 3, TargetP, function(t) t.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-2) end)
+addTog("🔄 بانق بل عکسی", 4, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(180), 0) * CFrame.new(0,0,0.8) task.wait(0.1) p.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,0.4) end)
 
-addTog("🌀 Fling 1M", 0, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(tick()*5000), 0) p.Character.HumanoidRootPart.Velocity = Vector3.new(1000000, 1000000, 1000000) end)
-addTog("👁️ View", 1, TargetP, function(t) workspace.CurrentCamera.CameraSubject = t.Character.Humanoid end)
-addTog("📍 یمص (Slow)", 2, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,-1.5) end)
-addTog("🔄 بانق بل عکسی", 3, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame * CFrame.Angles(0, math.rad(180), 0) * CFrame.new(0,0,0.8) end)
-addTog("👅 تمص", 4, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame * CFrame.new(0,-1.5,0.5) end)
-addTog("🤝 Bring", 5, TargetP, function(t) t.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame end)
-addTog("🚀 Teleport", 6, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame end)
-addTog("🔥 Bang", 7, TargetP, function(t) p.Character.HumanoidRootPart.CFrame = t.Character.HumanoidRootPart.CFrame * CFrame.new(0,0,1.1) end)
+-- [[ ٥. بەشی GAMES (Fly & Invis & Speed & Jump) ]]
+local WBox = Instance.new("TextBox", GamesP); WBox.Size = UDim2.new(0.45,0,0,30); WBox.PlaceholderText = "Speed پلەیەر"; WBox.BackgroundColor3 = Color3.fromRGB(30,30,30); WBox.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", WBox)
+local JBox = Instance.new("TextBox", GamesP); JBox.Size = UDim2.new(0.45,0,0,30); JBox.Position = UDim2.new(0.5,0,0,0); JBox.PlaceholderText = "Jump پلەیەر"; JBox.BackgroundColor3 = Color3.fromRGB(30,30,30); JBox.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", JBox)
+task.spawn(function() while task.wait() do p.Character.Humanoid.WalkSpeed = tonumber(WBox.Text) or 16 p.Character.Humanoid.JumpPower = tonumber(JBox.Text) or 50 end end)
 
--- [[ ٥. بەشی GAMES ]]
-local WalkBox = Instance.new("TextBox", GamesP); WalkBox.Size = UDim2.new(0.45,0,0,35); WalkBox.PlaceholderText = "Speed"; WalkBox.BackgroundColor3 = Color3.fromRGB(30,30,30); WalkBox.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", WalkBox)
-local JumpBox = Instance.new("TextBox", GamesP); JumpBox.Size = UDim2.new(0.45,0,0,35); JumpBox.Position = UDim2.new(0.5,0,0,0); JumpBox.PlaceholderText = "Jump"; JumpBox.BackgroundColor3 = Color3.fromRGB(30,30,30); JumpBox.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", JumpBox)
+local function gBtn(txt, y, func)
+    local b = Instance.new("TextButton", GamesP); b.Size = UDim2.new(0.9,0,0,32); b.Position = UDim2.new(0.05,0,0,y); b.Text = txt; b.BackgroundColor3 = Color3.fromRGB(30,30,30); b.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", b)
+    b.MouseButton1Click:Connect(func)
+end
+gBtn("🚀 Kurdin Hub Fly", 40, function() loadstring(game:HttpGet("https://raw.githubusercontent.com/XNEOFF/FlyGuiV3/main/FlyGuiV3.lua"))() end)
+gBtn("👻 inv (Invisible)", 75, function() p.Character:BreakJoints() end)
 
-local infJump = false
-game:GetService("UserInputService").JumpRequest:Connect(function() if infJump then p.Character.Humanoid:ChangeState(3) end end)
-local JumpBtn = Instance.new("TextButton", GamesP); JumpBtn.Size = UDim2.new(0.9,0,0,35); JumpBtn.Position = UDim2.new(0.05,0,0,45); JumpBtn.Text = "Infinite Jump (Off)"; JumpBtn.BackgroundColor3 = Color3.fromRGB(30,30,30); JumpBtn.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", JumpBtn)
-JumpBtn.MouseButton1Click:Connect(function() infJump = not infJump; JumpBtn.Text = infJump and "Infinite Jump (On)" or "Infinite Jump (Off)" JumpBtn.TextColor3 = infJump and Color3.new(0,1,0.6) or Color3.new(1,1,1) end)
-
-task.spawn(function() while task.wait() do p.Character.Humanoid.WalkSpeed = tonumber(WalkBox.Text) or 16 p.Character.Humanoid.JumpPower = tonumber(JumpBox.Text) or 50 end end)
-
--- [[ ٦. بەشی SPAM ]]
-local SText = Instance.new("TextBox", SpamP); SText.Size = UDim2.new(0.9,0,0,35); SText.Position = UDim2.new(0.05,0,0,0); SText.PlaceholderText = "Message..."; SText.BackgroundColor3 = Color3.fromRGB(30,30,30); SText.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", SText)
-local SSpeed = Instance.new("TextBox", SpamP); SSpeed.Size = UDim2.new(0.4,0,0,35); SSpeed.Position = UDim2.new(0.05,0,0,45); SSpeed.PlaceholderText = "Speed (0.5)"; SSpeed.BackgroundColor3 = Color3.fromRGB(30,30,30); SSpeed.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", SSpeed)
-
-local spamming = false
-local SBtn = Instance.new("TextButton", SpamP); SBtn.Size = UDim2.new(0.45,0,0,35); SBtn.Position = UDim2.new(0.5,0,0,45); SBtn.Text = "Start Spam"; SBtn.BackgroundColor3 = Color3.fromRGB(30,30,30); SBtn.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", SBtn)
-SBtn.MouseButton1Click:Connect(function()
-    spamming = not spamming
-    SBtn.Text = spamming and "Stop Spam" or "Start Spam"
-    task.spawn(function()
-        while spamming do
-            local waitTime = tonumber(SSpeed.Text) or 0.5
-            game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(SText.Text, "All")
-            task.wait(waitTime)
-        end
-    end)
-end)
+-- [[ ٦. بەشی ANTI & UPDATE (وەک ئەوەی ویستت) ]]
+addTog("🛡️ Anti-Bang/Fling", 0, AntiP, function() p.Character.HumanoidRootPart.Velocity = Vector3.new(0,0,0) end)
+local UpFrame = Instance.new("Frame", UpdateP); UpFrame.Size = UDim2.new(0.9, 0, 0.6, 0); UpFrame.Position = UDim2.new(0.05, 0, 0.1, 0); UpFrame.BackgroundColor3 = Color3.fromRGB(15, 15, 15); Instance.new("UICorner", UpFrame)
+local US = Instance.new("UIStroke", UpFrame); US.Thickness = 3; task.spawn(function() while task.wait() do US.Color = Color3.fromHSV(tick()%5/5, 1, 1) end end)
+local UT = Instance.new("TextLabel", UpFrame); UT.Size = UDim2.new(1, -20, 1, -20); UT.Position = UDim2.new(0, 10, 0, 10); UT.BackgroundTransparency = 1; UT.TextColor3 = Color3.new(1,1,1); UT.TextSize = 13; UT.Text = "📢 ئەپدیت / هەموو جومعە یان هەینی ئەپدیت دەکرێتەوە\n\nبۆ زانیاری زیاتر جۆینی دیسکۆرد بکەن!"
 
 -- [ ٧. دوگمەی کردنەوە و داخستن ]
 local Open = Instance.new("TextButton", sg); Open.Size = UDim2.new(0, 50, 0, 50); Open.Position = UDim2.new(0, 10, 0.5, 0); Open.Text = "U"; Open.BackgroundColor3 = Color3.fromRGB(15,15,15); Open.TextColor3 = Color3.new(1,1,1); Instance.new("UICorner", Open).CornerRadius = UDim.new(1,0)
-local OS = Instance.new("UIStroke", Open); OS.Thickness = 2; task.spawn(function() while task.wait() do OS.Color = Color3.fromHSV(tick()%5/5, 1, 1) end end)
 Open.MouseButton1Click:Connect(function() Main.Visible = not Main.Visible end)
+-- [[ 🔄 بەشی UPDATE - Kurdin Hub ]]
 
--- [ ٨. سیستەمی ئاگادارکردنەوە ]
+local UpFrame = Instance.new("Frame", UpdateP)
+UpFrame.Size = UDim2.new(0.9, 0, 0.7, 0)
+UpFrame.Position = UDim2.new(0.05, 0, 0.15, 0)
+UpFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+Instance.new("UICorner", UpFrame).CornerRadius = UDim.new(0, 12)
+
+-- ستڕۆکە ڕەنگاوڕەنگەکە (Neon RGB Stroke)
+local UpStroke = Instance.new("UIStroke", UpFrame)
+UpStroke.Thickness = 3
+task.spawn(function() 
+    while UpFrame.Parent do 
+        UpStroke.Color = Color3.fromHSV(tick()%5/5, 1, 1) 
+        task.wait() 
+    end 
+end)
+
+local UpText = Instance.new("TextLabel", UpFrame)
+UpText.Size = UDim2.new(1, -20, 1, -20)
+UpText.Position = UDim2.new(0, 10, 0, 10)
+UpText.BackgroundTransparency = 1
+UpText.TextColor3 = Color3.new(1, 1, 1)
+UpText.Font = Enum.Font.GothamBold
+UpText.TextSize = 15
+UpText.TextWrapped = true
+UpText.TextXAlignment = Enum.TextXAlignment.Center
+
+-- ئەو دەقانەی کە داوات کردبوو
+UpText.Text = [[
+📢 زانیاری ئەپدیت / Update Info
+
+- هەموو جومعە یان هەینی ئەپدیت دەکرێتەوە.
+- بەشی Target بە تەواوی چاککرا (Suck, Bang, View).
+- بەشی Anti و Games و فڕینی کوردی زیاد کرا.
+- سیستەمی ئاگادارکردنەوەی لێفت کردن چالاک کرا.
+
+بۆ زانیاری زیاتر و وەرگرتنی سکریپتی نوێ
+جۆینی دیسکۆردەکەمان بکە!
+]]
+
+-- هێڵێکی جوڵاو بۆ جوانی زیاتر لە خوارەوە
+local UnderLine = Instance.new("Frame", UpFrame)
+UnderLine.Size = UDim2.new(0.6, 0, 0, 2)
+UnderLine.Position = UDim2.new(0.2, 0, 0.9, 0)
+task.spawn(function() 
+    while UpFrame.Parent do 
+        UnderLine.BackgroundColor3 = Color3.fromHSV(tick()%5/5, 1, 1) 
+        task.wait() 
+    end 
+end)
+-- [[ ⚠️ KURDIN HUB - NEON LEAVE NOTIFICATION SYSTEM ]]
+
 game.Players.PlayerRemoving:Connect(function(player)
-    local notifyFrame = Instance.new("Frame", sg)
-    notifyFrame.Size = UDim2.new(0, 250, 0, 70); notifyFrame.Position = UDim2.new(1, -260, 0.1, 0); notifyFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20); Instance.new("UICorner", notifyFrame)
-    local img = Instance.new("ImageLabel", notifyFrame); img.Size = UDim2.new(0, 50, 0, 50); img.Position = UDim2.new(0, 10, 0.5, -25); img.Image = "rbxthumb://type=AvatarHeadShot&id="..player.UserId.."&w=150&h=150"; Instance.new("UICorner", img).CornerRadius = UDim.new(1,0)
-    local txt = Instance.new("TextLabel", notifyFrame); txt.Size = UDim2.new(0, 170, 1, 0); txt.Position = UDim2.new(0, 70, 0, 0); txt.Text = "پلەیەرەکە لێفتی کرد بەناوی:\n" .. player.Name; txt.TextColor3 = Color3.new(1,1,1); txt.TextSize = 12; txt.BackgroundTransparency = 1; txt.Font = Enum.Font.GothamBold
-    local b = Instance.new("Frame", notifyFrame); b.Size = UDim2.new(1,0,0,2); b.Position = UDim2.new(0,0,1,-2)
-    task.spawn(function() while notifyFrame.Parent do b.BackgroundColor3 = Color3.fromHSV(tick()%5/5, 1, 1) task.wait() end end)
-    task.wait(8); if notifyFrame then notifyFrame:Destroy() end
+    local notifyFrame = Instance.new("Frame", sg) -- دڵنیابە sg ناوی ScreenGui ـەکەتە
+    notifyFrame.Size = UDim2.new(0, 280, 0, 85)
+    notifyFrame.Position = UDim2.new(1, -290, 0.1, 0)
+    notifyFrame.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+    Instance.new("UICorner", notifyFrame).CornerRadius = UDim.new(0, 12)
+    
+    -- نیۆن و ستڕۆک (Neon Stroke)
+    local ns = Instance.new("UIStroke", notifyFrame)
+    ns.Thickness = 2.5
+    task.spawn(function()
+        while notifyFrame.Parent do
+            ns.Color = Color3.fromHSV(tick()%5/5, 1, 1) -- ڕەنگی جوڵاو
+            task.wait()
+        end
+    end)
+
+    -- وێنەی ئەڤتاری یاریزانەکە
+    local img = Instance.new("ImageLabel", notifyFrame)
+    img.Size = UDim2.new(0, 60, 0, 60)
+    img.Position = UDim2.new(0, 10, 0.5, -30)
+    img.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    img.Image = "rbxthumb://type=AvatarHeadShot&id="..player.UserId.."&w=150&h=150"
+    Instance.new("UICorner", img).CornerRadius = UDim.new(1, 0)
+    local imgS = Instance.new("UIStroke", img)
+    imgS.Thickness = 1.5
+    imgS.Color = Color3.fromRGB(255, 255, 255)
+
+    -- ناوی سیستم لە سەرەوە
+    local Title = Instance.new("TextLabel", notifyFrame)
+    Title.Size = UDim2.new(0, 190, 0, 20)
+    Title.Position = UDim2.new(0, 80, 0, 10)
+    Title.Text = "System Kurdin Hub ☀️"
+    Title.TextColor3 = Color3.fromRGB(255, 255, 0) -- ڕەنگی زەرد وەک خۆرەکە
+    Title.Font = Enum.Font.GothamBold
+    Title.TextSize = 14
+    Title.BackgroundTransparency = 1
+    Title.TextXAlignment = Enum.TextXAlignment.Left
+
+    -- دەقی لێفت کردن (Username & Display)
+    local txt = Instance.new("TextLabel", notifyFrame)
+    txt.Size = UDim2.new(0, 190, 0, 45)
+    txt.Position = UDim2.new(0, 80, 0, 30)
+    txt.Text = "پلەیرەکە لە یاریەکە لێفتی کرد بە ناوی:\n" .. "D: " .. player.DisplayName .. "\nU: @" .. player.Name
+    txt.TextColor3 = Color3.new(1, 1, 1)
+    txt.TextSize = 11
+    txt.BackgroundTransparency = 1
+    txt.Font = Enum.Font.GothamBold
+    txt.TextXAlignment = Enum.TextXAlignment.Left
+    txt.TextYAlignment = Enum.TextYAlignment.Top
+
+    -- هێڵی نیۆنی خوارەوە
+    local bar = Instance.new("Frame", notifyFrame)
+    bar.Size = UDim2.new(1, 0, 0, 3)
+    bar.Position = UDim2.new(0, 0, 1, -3)
+    Instance.new("UICorner", bar)
+    task.spawn(function()
+        while notifyFrame.Parent do
+            bar.BackgroundColor3 = Color3.fromHSV(tick()%5/5, 1, 1)
+            task.wait()
+        end
+    end)
+
+    -- دوای ٧ چرکە وەک سێبەر ون دەبێت
+    task.wait(7)
+    if notifyFrame then
+        for i = 0, 1, 0.1 do
+            if not notifyFrame then break end
+            notifyFrame.BackgroundTransparency = i
+            Title.TextTransparency = i
+            txt.TextTransparency = i
+            img.ImageTransparency = i
+            task.wait(0.05)
+        end
+        notifyFrame:Destroy()
+    end
 end)
